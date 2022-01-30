@@ -1,6 +1,6 @@
 <?php
 
-require "dbBroker.php";
+require "dbBroker.php"; //kroz broker kreiramo konekciju
 require "model/prijava.php";
 
 session_start();
@@ -9,10 +9,11 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+//da dobijemo sve prijave
 $podaci = Prijava::getAll($conn);
 if (!$podaci) {
     echo "Nastala je greška pri preuzimanju podataka";
-    die();
+    die(); //isto sto i exit
 }
 if ($podaci->num_rows == 0) {
     echo "Nema prijava na kolokvijume";
@@ -67,6 +68,7 @@ if ($podaci->num_rows == 0) {
                     </tr>
                 </thead>
                 <tbody>
+                <!--Ovde otvaramo php tag jer nam treba da se sledeci deo koda ponavlja za svaki klk koji postoji-->
                     <?php
                     while ($red = $podaci->fetch_array()) :
                     ?>

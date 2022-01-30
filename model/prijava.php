@@ -1,4 +1,5 @@
 <?php
+//klasa za prijavu
 class Prijava{
     public $id;   
     public $predmet;   
@@ -8,6 +9,7 @@ class Prijava{
     
     public function __construct($id=null, $predmet=null, $katedra=null, $sala=null, $datum=null)
     {
+        //. u phpu sluzi samo za konkatenaciju stringova
         $this->id = $id;
         $this->predmet = $predmet;
         $this->katedra = $katedra;
@@ -16,7 +18,7 @@ class Prijava{
     }
 
     #funkcija prikazi sve getAll
-
+    //(mysqli konekcija) --> kad god imamo rad sa bazom potrebno je da imamo ukljuceno i tu konekciju koja ce nam to omoguciti
     public static function getAll(mysqli $conn)
     {
         $query = "SELECT * FROM prijave";
@@ -28,9 +30,9 @@ class Prijava{
     public static function getById($id, mysqli $conn){
         $query = "SELECT * FROM prijave WHERE id=$id";
 
-        $myObj = array();
-        if($msqlObj = $conn->query($query)){
-            while($red = $msqlObj->fetch_array(1)){
+        $myObj = array(); //kreiramo niz i to prazan
+        if($msqlObj = $conn->query($query)){ //ako je taj rezultat koji dobijemo razlitic od false(od praznog niza)
+            while($red = $msqlObj->fetch_array(1)){ //uzmemo prvi iz niza
                 $myObj[]= $red;
             }
         }
@@ -58,7 +60,8 @@ class Prijava{
     public static function add(Prijava $prijava, mysqli $conn)
     {
         $query = "INSERT INTO prijave(predmet, katedra, sala, datum) VALUES('$prijava->predmet','$prijava->katedra','$prijava->sala','$prijava->datum')";
-        return $conn->query($query);
+        //VALUES pa od ove prijave mi daj predmet, katedru, salu i datum
+        return $conn->query($query); //treba da izvrsimo query i vratimo rezultat
     }
 }
 
